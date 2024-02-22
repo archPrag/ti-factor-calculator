@@ -1,0 +1,73 @@
+Section          Base   Top    High   Length
+---------------- ------ ------ ------ -------
+.icon            D1A882 D1A89B            19h
+.init.libs       D1A89B D1A89B             0h
+.libs            D1A89B D1A89B             0h
+.init.clock      D1A89B D1A89B             0h
+.init.reruncheck D1A89B D1A89B             0h
+.init            D1A89B D1A8C5            2Ah
+.fini            D1A8C5 D1A8F9            34h
+.text            D1A8F9 D1B1A9           8B0h
+.data            D1B1A9 D1B1AC             3h
+.rodata          D1B1AC D1B1B5             9h
+.init_array      000000 000000             0h
+.ctors           000000 000000             0h
+.dtors           000000 000000             0h
+.fini_array      000000 000000             0h
+.bss             D052C6 D052CC D13FD8      6h
+.header          D1A87F D1A882             3h
+
+Label                       Value
+-------------------------   ------
+___low_bss                = D052C6
+___len_bss                = 000006
+___heaptop                = D13FD8
+___heapbot                = D052CC
+___libs                   = D1A89B
+___init_array_count       = 000000
+___ctors_count            = 000000
+___dtors_count            = 000000
+___fini_array_count       = 000000
+__stack                   = D1A87E
+__frameset                = D1A8F9
+__frameset0               = D1A907
+__idivs                   = D1A912
+__idvrms                  = D1A919
+__idvrmu                  = D1A947
+__imulu                   = D1A95F
+__ineg                    = D1A98F
+__irems                   = D1A998
+__ftol                    = 00027C
+__ftoul                   = 00027C
+__ltof                    = 000284
+__setflag                 = 000218
+__ultof                   = 000280
+_os_GetStringInput        = D1A9A0
+_os_DisableHomeTextBuffer = D1AB12
+_os_EnableHomeTextBuffer  = D1AB24
+_os_PutStrFull            = 021D2C
+_free                     = D1AB36
+_malloc                   = D1ABF3
+__alloc_base              = D052C6
+_realloc                  = D1AC92
+_calloc                   = D1AD08
+_memset                   = D1AD26
+_memcpy                   = 0000A4
+_sbrk                     = D1AD3D
+__sbrkbase                = D1B1A9
+__start                   = D1A89B
+___exithl                 = D1A8C5
+skip._exit                = D1A8C5
+skip.__Exit               = D1A8C5
+skip._abort               = D1A8C5
+_exit.sp                  = D1A8C6
+_exit.flash_wait_states   = D1A8D0
+_charToInt                = D1AD5B
+_isNextPrime              = D1ADCF
+_exponentIn               = D1AE52
+_charBreakPoint           = D1AE86
+_powerTen                 = D1AEAD
+_digitsNeeded             = D1AEF1
+_addNumberToString        = D1AF1C
+_main                     = D1AF75
+_.str                     = D1B1AC

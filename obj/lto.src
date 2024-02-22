@@ -1,0 +1,558 @@
+	section	.text,"ax",@progbits
+	assume	adl = 1
+	section	.text,"ax",@progbits
+	public	_charToInt
+_charToInt:
+	ld	hl, -3
+	call	__frameset
+	ld	hl, (ix + 6)
+	ld	(ix - 3), hl
+	ld	de, (ix + 9)
+	ld	iy, 0
+	ld	bc, 1
+	push	de
+	pop	hl
+	or	a, a
+	sbc	hl, bc
+	call	pe, __setflag
+	jp	p, BB0_2
+	lea	de, iy
+BB0_2:
+	ld	hl, (ix - 3)
+	inc	hl
+	ld	(ix - 3), hl
+BB0_3:
+	push	de
+	pop	hl
+	add	hl, bc
+	or	a, a
+	sbc	hl, bc
+	jr	z, BB0_5
+	lea	hl, iy
+	ld	bc, 10
+	call	__imulu
+	ld	iy, (ix - 3)
+	ld	a, (iy - 1)
+	push	hl
+	pop	iy
+	ld	l, a
+	rlc	l
+	sbc	hl, hl
+	ld	l, a
+	ld	bc, -48
+	add	iy, bc
+	push	hl
+	pop	bc
+	add	iy, bc
+	dec	de
+	ld	hl, (ix - 3)
+	ld	a, (hl)
+	ld	hl, (ix - 3)
+	inc	hl
+	ld	(ix - 3), hl
+	or	a, a
+	jr	nz, BB0_3
+BB0_5:
+	lea	hl, iy
+	ld	sp, ix
+	pop	ix
+	ret
+	section	.text,"ax",@progbits
+
+	section	.text,"ax",@progbits
+	public	_isNextPrime
+_isNextPrime:
+	ld	hl, -9
+	call	__frameset
+	ld	iy, (ix + 9)
+	ld	de, 1
+	lea	hl, iy
+	ld	(ix - 9), de
+	or	a, a
+	sbc	hl, de
+	call	pe, __setflag
+	lea	de, iy
+	jp	p, BB1_2
+	ld	de, 0
+BB1_2:
+	ld	hl, (ix + 6)
+	ld	(ix - 6), hl
+	or	a, a
+	sbc	hl, hl
+	ld	(ix - 3), hl
+BB1_3:
+	push	de
+	pop	hl
+	ld	bc, (ix - 3)
+	or	a, a
+	sbc	hl, bc
+	jr	z, BB1_6
+	ld	hl, (ix - 6)
+	ld	bc, (hl)
+	ld	hl, (ix + 12)
+	call	__irems
+	ld	bc, (ix - 3)
+	inc	bc
+	ld	(ix - 3), bc
+	ld	iy, (ix - 6)
+	lea	iy, iy + 3
+	ld	(ix - 6), iy
+	add	hl, bc
+	or	a, a
+	sbc	hl, bc
+	jr	nz, BB1_3
+	ld	hl, (ix - 3)
+	dec	hl
+	jr	BB1_7
+BB1_6:
+	ex	de, hl
+BB1_7:
+	ld	de, (ix + 9)
+	or	a, a
+	sbc	hl, de
+	call	pe, __setflag
+	jp	p, BB1_9
+	ld	hl, 0
+	ld	(ix - 9), hl
+BB1_9:
+	ld	hl, (ix - 9)
+	ld	sp, ix
+	pop	ix
+	ret
+	section	.text,"ax",@progbits
+
+	section	.text,"ax",@progbits
+	public	_exponentIn
+_exponentIn:
+	ld	hl, -3
+	call	__frameset
+	ld	iy, (ix + 6)
+	ld	de, -1
+BB2_1:
+	lea	hl, iy
+	ld	bc, (ix + 9)
+	call	__idivs
+	ld	(ix - 3), hl
+	call	__imulu
+	push	hl
+	pop	bc
+	inc	de
+	lea	hl, iy
+	or	a, a
+	sbc	hl, bc
+	ld	iy, (ix - 3)
+	jr	z, BB2_1
+	ex	de, hl
+	ld	sp, ix
+	pop	ix
+	ret
+	section	.text,"ax",@progbits
+
+	section	.text,"ax",@progbits
+	public	_digitsNeeded
+_digitsNeeded:
+	ld	hl, -3
+	call	__frameset
+	ld	bc, (ix + 6)
+	or	a, a
+	sbc	hl, hl
+	ld	(ix - 3), hl
+	ld	de, 1
+BB3_1:
+	push	bc
+	pop	hl
+	push	de
+	pop	iy
+	or	a, a
+	sbc	hl, de
+	call	pe, __setflag
+	jp	m, BB3_3
+	push	bc
+	pop	hl
+	ld	bc, 10
+	call	__idivu
+	push	hl
+	pop	bc
+	ld	hl, (ix - 3)
+	inc	hl
+	ld	(ix - 3), hl
+	lea	de, iy
+	jr	BB3_1
+BB3_3:
+	ld	hl, (ix - 3)
+	ld	sp, ix
+	pop	ix
+	ret
+	section	.text,"ax",@progbits
+
+	section	.text,"ax",@progbits
+	public	_printNumber
+_printNumber:
+	ld	hl, -18
+	call	__frameset
+	ld	hl, (ix + 6)
+	ld	(ix - 9), hl
+	push	hl
+	call	_digitsNeeded
+	push	hl
+	pop	bc
+	pop	hl
+	push	bc
+	pop	de
+	inc	de
+	ld	hl, 0
+	add	hl, sp
+	or	a, a
+	sbc	hl, de
+	ld	(ix - 6), hl
+	ld	sp, hl
+	ld	de, 1
+	push	bc
+	pop	hl
+	or	a, a
+	sbc	hl, de
+	call	pe, __setflag
+	ld	(ix - 3), bc
+	jp	p, BB4_2
+	ld	bc, 0
+BB4_2:
+	ld	hl, (ix - 3)
+	dec	hl
+	ld	(ix - 12), hl
+	ld	e, -10
+BB4_3:
+	push	bc
+	pop	hl
+	add	hl, bc
+	or	a, a
+	sbc	hl, bc
+	jr	z, BB4_5
+	ld	iy, (ix - 9)
+	lea	hl, iy
+	ld	(ix - 15), bc
+	ld	bc, 10
+	call	__idivs
+	ld	(ix - 18), hl
+	ld	d, l
+	ld	l, e
+	ld	h, d
+	mlt	de
+	ld	a, e
+	ld	bc, (ix - 15)
+	add	a, iyl
+	add	a, 48
+	ld	iy, (ix - 6)
+	ld	de, (ix - 12)
+	add	iy, de
+	ld	(iy), a
+	dec	de
+	ld	(ix - 12), de
+	ld	e, l
+	ld	d, h
+	dec	bc
+	ld	hl, (ix - 18)
+	ld	(ix - 9), hl
+	jr	BB4_3
+BB4_5:
+	ld	bc, (ix - 6)
+	push	bc
+	pop	hl
+	ld	de, (ix - 3)
+	add	hl, de
+	ld	(hl), 0
+	push	bc
+	call	_os_PutStrFull
+	ld	sp, ix
+	pop	ix
+	ret
+	section	.text,"ax",@progbits
+
+	section	.text,"ax",@progbits
+	public	_main
+_main:
+	ld	hl, -37
+	call	__frameset
+	ld	hl, 1
+	ld	de, 3
+	lea	bc, ix - 10
+	ld	(ix - 22), bc
+	push	de
+	push	hl
+	call	_calloc
+	ld	(ix - 16), hl
+	pop	hl
+	pop	hl
+	ld	iy, -3145600
+	call	_os_ClrLCD
+	call	_os_HomeUp
+	call	_os_DrawStatusBar
+	ld	hl, 10
+	push	hl
+	ld	hl, (ix - 22)
+	push	hl
+	ld	hl, _.str
+	push	hl
+	call	_os_GetStringInput
+	pop	hl
+	pop	hl
+	pop	hl
+	ld	hl, 10
+	push	hl
+	ld	hl, (ix - 22)
+	push	hl
+	call	_charToInt
+	ld	iy, (ix - 16)
+	ld	bc, 3
+	ld	(ix - 19), hl
+	pop	hl
+	pop	hl
+	ld	hl, 2
+	ld	(iy), hl
+	dec	hl
+	ld	(ix - 28), hl
+	ld	de, 1
+	ld	(ix - 25), bc
+BB5_1:
+	ld	(ix - 13), de
+	ex	de, hl
+	dec	hl
+	call	__imulu
+	push	hl
+	pop	de
+	lea	hl, iy
+	add	hl, de
+	ld	de, (hl)
+	ld	hl, (ix - 19)
+	or	a, a
+	sbc	hl, de
+	call	pe, __setflag
+	ld	(ix - 16), iy
+	jp	m, BB5_6
+	ld	hl, (ix - 25)
+	push	hl
+	ld	hl, (ix - 13)
+	push	hl
+	push	iy
+	call	_isNextPrime
+	pop	de
+	pop	de
+	pop	de
+	add	hl, bc
+	or	a, a
+	sbc	hl, bc
+	jr	nz, BB5_4
+	ld	bc, 3
+	ld	iy, (ix - 16)
+	ld	de, (ix - 13)
+	ld	hl, (ix - 25)
+	jr	BB5_5
+BB5_4:
+	ld	hl, (ix - 13)
+	inc	hl
+	ld	(ix - 31), hl
+	ld	de, 3
+	push	de
+	pop	bc
+	call	__imulu
+	push	hl
+	ld	hl, (ix - 16)
+	push	hl
+	call	_realloc
+	push	hl
+	pop	de
+	pop	hl
+	pop	hl
+	ld	hl, (ix - 13)
+	ld	bc, 3
+	call	__imulu
+	ld	(ix - 13), hl
+	push	de
+	pop	iy
+	ex	de, hl
+	ld	de, (ix - 13)
+	add	hl, de
+	ld	de, (ix - 25)
+	ld	(hl), de
+	ex	de, hl
+	ld	de, (ix - 31)
+BB5_5:
+	inc	hl
+	ld	(ix - 25), hl
+	jp	BB5_1
+BB5_6:
+	push	bc
+	ld	hl, (ix - 13)
+	push	hl
+	call	_calloc
+	ld	(ix - 25), hl
+	pop	hl
+	pop	hl
+	ld	de, 1
+	ld	hl, (ix - 13)
+	or	a, a
+	sbc	hl, de
+	call	pe, __setflag
+	ld	bc, (ix - 13)
+	jp	p, BB5_8
+	ld	bc, 0
+BB5_8:
+	ld	(ix - 13), bc
+	or	a, a
+	sbc	hl, hl
+	push	hl
+	pop	iy
+	ld	de, (ix - 19)
+BB5_9:
+	push	bc
+	pop	hl
+	add	hl, bc
+	or	a, a
+	sbc	hl, bc
+	jr	z, BB5_11
+	lea	de, iy
+	ld	(ix - 37), de
+	ld	hl, (ix - 16)
+	add	hl, de
+	ld	hl, (hl)
+	push	hl
+	ld	hl, (ix - 19)
+	push	hl
+	ld	(ix - 31), bc
+	ld	(ix - 34), iy
+	call	_exponentIn
+	ld	bc, (ix - 31)
+	pop	de
+	pop	de
+	ld	iy, (ix - 25)
+	ld	de, (ix - 37)
+	add	iy, de
+	ld	(iy), hl
+	ld	iy, (ix - 34)
+	ld	de, 3
+	add	iy, de
+	ld	de, (ix - 19)
+	dec	bc
+	jr	BB5_9
+BB5_11:
+	ld	iy, -3145600
+	call	_os_ClrLCD
+	call	_os_HomeUp
+	call	_os_DrawStatusBar
+	or	a, a
+	sbc	hl, hl
+	push	hl
+	pop	iy
+	ld	bc, 3
+	ld	hl, (ix - 13)
+BB5_12:
+	add	hl, bc
+	or	a, a
+	sbc	hl, bc
+	ld	de, (ix - 16)
+	jr	z, BB5_16
+	ld	(ix - 13), hl
+	lea	de, iy
+	ld	hl, (ix - 25)
+	add	hl, de
+	ld	hl, (hl)
+	add	hl, bc
+	or	a, a
+	sbc	hl, bc
+	jr	z, BB5_15
+	ld	(ix - 31), hl
+	ld	(ix - 19), iy
+	ld	hl, (ix - 28)
+	add	hl, bc
+	or	a, a
+	sbc	hl, bc
+	ld	hl, _.str.1
+	push	hl
+	call	z, _os_PutStrFull
+	pop	hl
+	ld	de, (ix - 19)
+	ld	hl, (ix - 16)
+	add	hl, de
+	ld	hl, (hl)
+	push	hl
+	call	_printNumber
+	pop	hl
+	ld	hl, _.str.2
+	push	hl
+	call	_os_PutStrFull
+	pop	hl
+	ld	hl, (ix - 31)
+	push	hl
+	call	_printNumber
+	ld	iy, (ix - 19)
+	pop	hl
+	or	a, a
+	sbc	hl, hl
+	ld	(ix - 28), hl
+	ld	bc, 3
+BB5_15:
+	add	iy, bc
+	ld	hl, (ix - 13)
+	dec	hl
+	jr	BB5_12
+BB5_16:
+	push	de
+	call	_free
+	pop	hl
+	ld	hl, (ix - 25)
+	push	hl
+	call	_free
+	pop	hl
+	ld	hl, 10
+	push	hl
+	ld	hl, (ix - 22)
+	push	hl
+	ld	hl, _.str.3
+	push	hl
+	call	_os_GetStringInput
+	pop	hl
+	pop	hl
+	pop	hl
+	or	a, a
+	sbc	hl, hl
+	ld	sp, ix
+	pop	ix
+	ret
+	section	.text,"ax",@progbits
+
+	section	.rodata,"a",@progbits
+	private	_.str
+_.str:
+	db	"Number", 0
+
+	section	.rodata,"a",@progbits
+	private	_.str.1
+_.str.1:
+	db	"x", 0
+
+	section	.rodata,"a",@progbits
+	private	_.str.2
+_.str.2:
+	db	"e", 0
+
+	section	.rodata,"a",@progbits
+	private	_.str.3
+_.str.3:
+	db	".", 0
+
+	ident	"clang version 15.0.0 (https://github.com/jacobly0/llvm-project 5f8512f22751066573aa48ac848a6d2195838ac3)"
+	extern	__Unwind_SjLj_Register
+	extern	__frameset
+	extern	_os_ClrLCD
+	extern	_os_DrawStatusBar
+	extern	__idivs
+	extern	__idivu
+	extern	__setflag
+	extern	__Unwind_SjLj_Unregister
+	extern	__irems
+	extern	_os_PutStrFull
+	extern	__imulu
+	extern	_os_GetStringInput
+	extern	_calloc
+	extern	_realloc
+	extern	_free
+	extern	_os_HomeUp
